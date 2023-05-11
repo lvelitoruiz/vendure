@@ -54,7 +54,7 @@ export default function Product({ element, settingProduct }: ProductProps) {
                 </div>
                 <button
                     className="bg-[#1E242C] flex items-center justify-center w-[50px] h-[50px] rounded-md duration-300 hover:duration-300 hover:bg-red-500"
-                    onClick={() => settingProduct(element)}
+                    data-testid="add-to-cart" onClick={() => settingProduct(element)}
                 >
                     <i className="iconoir-cart text-white text-[20px]"></i>
                 </button>

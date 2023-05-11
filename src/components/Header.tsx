@@ -62,7 +62,7 @@ export function Header() {
     <>
       <div className={`w-full pt-3 flex items-center justify-between px-[60px] ${showCart ? "bg-white" : ""} mx-auto absolute left-0 right-0 top-0 z-10`}>
         <h1 className={`${!showCart ? "text-white" : "text-black"} text-[40px] font-semibold top-0`}>santex</h1>
-        <button className="bg-white flex items-center justify-center w-[50px] h-[50px] rounded-md duration-300 hover:duration-300 hover:bg-red-500" onClick={() => changeCart()}><i className={`${showCart ? "iconoir-cancel" : "iconoir-cart"} text-[#1E242C] text-[20px]`}></i></button>
+        <button className="bg-white flex items-center justify-center w-[50px] h-[50px] rounded-md duration-300 hover:duration-300 hover:bg-red-500" data-testid="cart-button" onClick={() => changeCart()}><i className={`${showCart ? "iconoir-cancel" : "iconoir-cart"} text-[#1E242C] text-[20px]`}></i></button>
       </div>
       {(showCart) && <Cart total={cartInformation?.activeOrder.total} items={cartInformation?.activeOrder.lines}></Cart>}
     </>

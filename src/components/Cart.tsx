@@ -23,7 +23,7 @@ export default function Cart(props: any) {
                             (props.items !== null && props.items !== undefined) ?
                                 props.items.map((item: any, index: number) => {
                                     return (
-                                        <div className="flex items-center border-b border-[#EBEBEB] px-[15px] py-8" key={index}>
+                                        <div data-testid="cart-item" className="flex items-center border-b border-[#EBEBEB] px-[15px] py-8" key={index}>
                                             <div className="w-6/12">
                                                 <div className="flex items-center gap-4">
                                                     <img className="w-[45px] h-[45px] object-cover rounded-md hidden md:block" src={item.featuredAsset.preview} alt="" />
@@ -59,14 +59,14 @@ export default function Cart(props: any) {
                         </div>
                         <div className="flex items-center justify-between mb-2">
                             <p className="text-[#969DA8] font-medium">Shipment cost</p>
-                            <p className="text-[#969DA8] font-medium">$22.50</p>
+                            <p className="text-[#969DA8] font-medium">$0</p>
                         </div>
                     </div>
                     <div className="flex items-center justify-between mt-4 mb-10">
                         <p className="text-[#1E242C] font-medium">Grand total</p>
                         <p className="text-[#1E242C] font-medium">${props.total}</p>
                     </div>
-                    <button className="bg-[#1E242C] w-full h-[50px] flex items-center justify-center text-white rounded-md">Continue to payment</button>
+                    <button className="bg-[#1E242C] w-full h-[50px] flex items-center justify-center text-white rounded-md" data-testid="cart-button-child" >Continue to payment</button>
                 </div>
             </div>
         </section>

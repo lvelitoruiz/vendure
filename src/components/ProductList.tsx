@@ -5,6 +5,7 @@ import { getProductsQuery, activeOrderQuery } from '../graphql/queries';
 import { addItemToOrderMutation } from '../graphql/mutations';
 import Product from './Product';
 import Slider from './Slider';
+import load from '../assets/images/loader.svg';
 
 interface ProductListProps { }
 
@@ -12,7 +13,7 @@ interface ActiveOrder {
   id: number;
 }
 
-interface GetProductsData {
+export interface GetProductsData {
   products: {
     items: {
       id: number;
@@ -83,20 +84,7 @@ export function ProductList(props: ProductListProps) {
         {
           (bannerList !== null && bannerList !== undefined) ? <Slider items={bannerList} settingProduct={settingProduct}></Slider> : <div className='w-full h-[727px] relative flex justify-center items-center'>
             <div className='w-16 h-16'>
-              <svg version="1.1" id="L3" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                viewBox="0 0 100 100" enable-background="new 0 0 0 0" xmlSpace="preserve">
-                <circle fill="none" stroke="#3b3b3b" stroke-width="4" cx="50" cy="50" r="44" style={{ "opacity": "0.5" }} />
-                <circle fill="#3b3b3b" stroke="#6b6b6b" stroke-width="3" cx="8" cy="54" r="6" >
-                  <animateTransform
-                    attributeName="transform"
-                    dur="2s"
-                    type="rotate"
-                    from="0 50 48"
-                    to="360 50 52"
-                    repeatCount="indefinite" />
-
-                </circle>
-              </svg>
+              <img src={load} />
               <p className='mt-5'>Loading...</p>
             </div>
           </div>

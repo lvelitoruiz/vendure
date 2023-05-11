@@ -5,9 +5,7 @@ function App() {
   return (
     <div className='bg-[#F9F9F9]'>
       <Header></Header>
-      
-
-        <ProductList></ProductList>
+      <ProductList></ProductList>
     </div>
   );
 }
