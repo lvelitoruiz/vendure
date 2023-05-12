@@ -1,4 +1,5 @@
 import React from 'react';
+import useFormat from '../hooks/useFormat';
 
 interface ProductProps {
     element: {
@@ -27,14 +28,14 @@ export default function Product({ element, settingProduct }: ProductProps) {
                     <img
                         className="object-cover h-full w-full rounded-md hover:grayscale cursor-pointer hover:scale-125 duration-300 hover:duration-300"
                         src={element.featuredAsset.preview}
-                        alt=""
+                        alt={element.name}
                     />
                 ) :
                     (
                         <img
                             className="object-cover h-full w-full rounded-md"
                             src="https://demo.vendure.io/assets/preview/b8/kelly-sikkema-685291-unsplash__preview.jpg"
-                            alt=""
+                            alt={element.name}
                         />
 
                     )
@@ -47,19 +48,31 @@ export default function Product({ element, settingProduct }: ProductProps) {
                     </p>
                     <div className="flex items-start">
                         <p className="text-[#1E242C] text-[26px] font-semibold leading-none">
-                            {element?.variants[0]?.price}
+                            ${
+                                useFormat(element?.variants[0]?.price)
+                            }
                         </p>
                         <p className="leading-none text-[#9BA2AE] text-sm ml-4 line-through">
                             {element.slug}
                         </p>
                     </div>
                 </div>
-                <button
-                    className="bg-[#1E242C] flex items-center justify-center w-[50px] h-[50px] rounded-md duration-300 hover:duration-300 hover:bg-red-500"
-                    data-testid="add-to-cart" onClick={() => settingProduct(element)}
-                >
-                    <i className="iconoir-cart text-white text-[20px]"></i>
-                </button>
+                {
+                    (element?.variants[0]?.stockLevel === "IN_STOCK") ?
+                        <button
+                            className="bg-[#1E242C] flex items-center justify-center w-[50px] h-[50px] rounded-md duration-300 hover:duration-300 hover:bg-red-500"
+                            data-testid="add-to-cart" onClick={() => settingProduct(element)}
+                        >
+                            <i className="iconoir-cart text-white text-[20px]"></i>
+                        </button> :
+                        <button
+                            className="bg-[#1E242C] flex items-center justify-center w-[120px] text-white h-[50px] rounded-md duration-300 hover:duration-300 hover:bg-red-500"
+                            data-testid="add-to-cart"
+                        >
+                            Out Of Stock
+                        </button>
+                }
+
             </div>
         </div>
     );

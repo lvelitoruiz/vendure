@@ -10,6 +10,7 @@ export const getProductsQuery = gql`
         variants {
           id
           price
+          stockLevel
         }
         featuredAsset {
           id

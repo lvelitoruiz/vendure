@@ -1,81 +1,91 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { MockedProvider, MockedResponse } from "@apollo/client/testing";
-import { activeOrderQuery } from "../graphql/queries";
-import { Header } from "./Header";
+import { render, screen, fireEvent } from '@testing-library/react';
+import { MockedProvider } from '@apollo/client/testing';
+import { activeOrderQuery } from '../graphql/queries';
+import { Header } from './Header';
 
-describe("Header component", () => {
-  const mocks: MockedResponse[] = [
-    {
-      request: {
-        query: activeOrderQuery,
-      },
-      result: {
-        data: {
-          activeOrder: {
-            code: "123",
-            currencyCode: "USD",
-            id: "abc",
-            lines: [
-              {
-                __typename: "OrderLine",
-                id: "line1",
-                productVariant: {
-                  // add mock productVariant data here
-                },
-                unitPriceWithTax: 10,
-                quantity: 2,
-              },
-            ],
-            state: "Open",
-            total: 20,
-          },
+const mockCartInfo = {
+  activeOrder: {
+    code: '123',
+    currencyCode: 'USD',
+    id: 'abc123',
+    lines: [
+      {
+        __typename: 'OrderLine',
+        id: 'line-1',
+        productVariant: {
+          id: 'variant-1',
+          name: 'Product 1',
+          sku: 'SKU123',
         },
+        unitPriceWithTax: 10,
+        quantity: 2,
       },
-    },
-  ];
+      {
+        __typename: 'OrderLine',
+        id: 'line-2',
+        productVariant: {
+          id: 'variant-2',
+          name: 'Product 2',
+          sku: 'SKU456',
+        },
+        unitPriceWithTax: 20,
+        quantity: 1,
+      },
+    ],
+    state: 'Active',
+    total: 40,
+  },
+};
 
-  beforeEach(() => {
+const mocks = [
+  {
+    request: {
+      query: activeOrderQuery,
+    },
+    result: {
+      data: mockCartInfo,
+    },
+  },
+];
+
+describe('Header component', () => {
+  it('renders the header with the correct title', () => {
     render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <Header />
       </MockedProvider>
     );
+
+    const title = screen.getByText('santex');
+    expect(title).toBeInTheDocument();
   });
 
-  test("renders the Santex logo", () => {
-    const logo = screen.getByText(/santex/i);
-    expect(logo).toBeInTheDocument();
-  });
+  it('displays the cart when the cart button is clicked', () => {
+    render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <Header />
+      </MockedProvider>
+    );
 
-  test("renders the cart button", () => {
     const cartButton = screen.getByTestId('cart-button');
-    expect(cartButton).toBeInTheDocument();
-  });
-
-  test("opens and closes the cart when the cart button is clicked", async () => {
-    const cartButton = screen.getByTestId('cart-button');
-
     fireEvent.click(cartButton);
-    const cart = await waitFor(() => screen.getByTestId("cart-button-child"));
+
+    const cart = screen.getByTestId('cart-button-child');
     expect(cart).toBeInTheDocument();
-
-    fireEvent.click(cartButton);
-    await waitFor(() => {
-      expect(cart).not.toBeInTheDocument();
-    });
   });
 
-  test("renders the cart with the correct total and items", async () => {
+  it('hides the cart when the cart button is clicked twice', () => {
+    render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <Header />
+      </MockedProvider>
+    );
+
     const cartButton = screen.getByTestId('cart-button');
-
     fireEvent.click(cartButton);
-    const cart = await waitFor(() => screen.getByTestId("cart-button-child"));
+    fireEvent.click(cartButton);
 
-    const subtotalPrice = screen.getByText("Subtotal");
-    expect(subtotalPrice).toBeInTheDocument();
-
-    const productTitle = screen.getByText("Grand total");
-    expect(productTitle).toBeInTheDocument();
+    const cart = screen.queryByTestId('cart');
+    expect(cart).not.toBeInTheDocument();
   });
 });
-

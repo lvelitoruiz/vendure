@@ -40,3 +40,7 @@ You will also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+## Node Version
+
+It would be better if you use Node v16.20.0 and YARN for this project

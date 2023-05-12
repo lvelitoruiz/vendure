@@ -9,6 +9,12 @@ describe('Slide', () => {
     featuredAsset: {
       preview: 'https://example.com/image.jpg',
     },
+    variants: [
+      {
+        stockLevel: "IN_STOCK",
+        price: 500
+      }
+    ]
   };
 
   it('renders an image if the product has a featuredAsset', () => {

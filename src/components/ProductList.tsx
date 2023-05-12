@@ -6,11 +6,13 @@ import { addItemToOrderMutation } from '../graphql/mutations';
 import Product from './Product';
 import Slider from './Slider';
 import load from '../assets/images/loader.svg';
+import { useTotal } from '../Context';
 
 interface ProductListProps { }
 
 interface ActiveOrder {
   id: number;
+  total: number;
 }
 
 export interface GetProductsData {
@@ -31,6 +33,8 @@ export function ProductList(props: ProductListProps) {
   const [product, setProduct] = useState<any>(null);
   const [bannerList, setBannerList] = useState<any>(null);
 
+  const { total, setTotal } = useTotal();
+
   const [updateCart, { error }] = useMutation(addItemToOrderMutation, {
     update: (cache, mutationResult) => {
       const data = cache.readQuery<{ activeOrder: ActiveOrder }>({
@@ -39,6 +43,7 @@ export function ProductList(props: ProductListProps) {
 
       if (data && data.activeOrder) {
         const { activeOrder } = data;
+        setTotal(activeOrder.total);
         cache.writeQuery({
           query: activeOrderQuery,
           data: {
@@ -53,6 +58,7 @@ export function ProductList(props: ProductListProps) {
     if (data !== null && data !== undefined) {
       setBannerList(bannerListCreate(data));
     }
+    console.log(data);
   }, [data]);
 
   useEffect(() => {
@@ -68,7 +74,6 @@ export function ProductList(props: ProductListProps) {
   }, [product]);
 
   const settingProduct = (element: any) => {
-    console.log('element to assign',element);
     setProduct(element);
   };
 

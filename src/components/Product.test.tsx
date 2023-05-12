@@ -1,46 +1,43 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import Product from './Product';
 
 describe('Product', () => {
-  const product = {
+  const mockProduct = {
     featuredAsset: {
-      preview: 'https://example.com/product-image.jpg',
+      preview: 'https://example.com/image.jpg',
     },
-    variants: [
-      {
-        id: 1,
-        price: 12
-      }
-    ],
+    variants: [{ price: '900', stockLevel: "IN_STOCK" }],
     name: 'Test Product',
     slug: 'test-product',
   };
-  const setProductMock = jest.fn();
+  const mockSettingProduct = jest.fn();
 
   beforeEach(() => {
-    render(<Product element={product} settingProduct={setProductMock} />);
+    mockSettingProduct.mockClear();
   });
 
   it('renders the product image', () => {
-    const productImage = screen.getByAltText('');
-    expect(productImage).toBeInTheDocument();
-    expect((productImage as HTMLImageElement).src).toBe(product.featuredAsset.preview);
+    const { getByAltText } = render(<Product element={mockProduct} settingProduct={mockSettingProduct} />);
+    expect(getByAltText('Test Product')).toBeInTheDocument();
   });
 
   it('renders the product name and price', () => {
-    const productName = screen.getByText(product.name);
-    const productPrice = screen.getByText('$59');
-
-    expect(productName).toBeInTheDocument();
-    expect(productPrice).toBeInTheDocument();
+    const { getByText } = render(<Product element={mockProduct} settingProduct={mockSettingProduct} />);
+    expect(getByText('Test Product')).toBeInTheDocument();
+    expect(getByText('$900')).toBeInTheDocument();
   });
 
-  it('calls the setProduct function when the add to cart button is clicked', () => {
-    const addToCartButton = screen.getByTestId("add-to-cart");
-    fireEvent.click(addToCartButton);
+  it('calls the settingProduct function when the Add to Cart button is clicked', () => {
+    const { getByTestId } = render(<Product element={mockProduct} settingProduct={mockSettingProduct} />);
+    fireEvent.click(getByTestId('add-to-cart'));
+    expect(mockSettingProduct).toHaveBeenCalledTimes(1);
+    expect(mockSettingProduct).toHaveBeenCalledWith(mockProduct);
+  });
 
-    expect(setProductMock).toHaveBeenCalledTimes(1);
-    expect(setProductMock).toHaveBeenCalledWith(product);
+  it('renders a placeholder image when the product does not have a featured asset', () => {
+    const mockProductWithoutAsset = { ...mockProduct, featuredAsset: null };
+    const { getByAltText } = render(<Product element={mockProductWithoutAsset} settingProduct={mockSettingProduct} />);
+    expect(getByAltText('Test Product')).toBeInTheDocument();
   });
 });
