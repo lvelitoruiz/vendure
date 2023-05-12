@@ -28,7 +28,6 @@ export interface GetProductsData {
 
 export function ProductList(props: ProductListProps) {
   const { loading, data } = useQuery<GetProductsData>(getProductsQuery);
-  const { data: cartInformation } = useQuery<{ activeOrder: ActiveOrder }>(activeOrderQuery);
   const [product, setProduct] = useState<any>(null);
   const [bannerList, setBannerList] = useState<any>(null);
 
@@ -62,7 +61,7 @@ export function ProductList(props: ProductListProps) {
     // call mutation
     updateCart({
       variables: {
-        productVariantId: Number(product?.id),
+        productVariantId: Number(product?.variants[0]?.id),
         quantity: 1,
       },
     });
@@ -84,7 +83,7 @@ export function ProductList(props: ProductListProps) {
         {
           (bannerList !== null && bannerList !== undefined) ? <Slider items={bannerList} settingProduct={settingProduct}></Slider> : <div className='w-full h-[727px] relative flex justify-center items-center'>
             <div className='w-16 h-16'>
-              <img src={load} />
+              <img src={load} alt="loading"/>
               <p className='mt-5'>Loading...</p>
             </div>
           </div>
@@ -102,9 +101,9 @@ export function ProductList(props: ProductListProps) {
             <div className='w-full h-[727px] relative flex justify-center items-center'>
               <div className='w-16 h-16'>
                 <svg version="1.1" id="L3" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                  viewBox="0 0 100 100" enable-background="new 0 0 0 0" xmlSpace="preserve">
-                  <circle fill="none" stroke="#3b3b3b" stroke-width="4" cx="50" cy="50" r="44" style={{ "opacity": "0.5" }} />
-                  <circle fill="#3b3b3b" stroke="#6b6b6b" stroke-width="3" cx="8" cy="54" r="6" >
+                  viewBox="0 0 100 100" enableBackground="new 0 0 0 0" xmlSpace="preserve">
+                  <circle fill="none" stroke="#3b3b3b" strokeWidth="4" cx="50" cy="50" r="44" style={{ "opacity": "0.5" }} />
+                  <circle fill="#3b3b3b" stroke="#6b6b6b" strokeWidth="3" cx="8" cy="54" r="6" >
                     <animateTransform
                       attributeName="transform"
                       dur="2s"

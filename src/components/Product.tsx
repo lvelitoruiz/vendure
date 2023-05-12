@@ -5,6 +5,7 @@ interface ProductProps {
         featuredAsset: {
             preview: string;
         } | null;
+        variants: any[];
         name: string;
         slug: string;
     };
@@ -12,6 +13,7 @@ interface ProductProps {
         featuredAsset: {
             preview: string;
         } | null;
+        variants: any[];
         name: string;
         slug: string;
     }) => void;
@@ -45,7 +47,7 @@ export default function Product({ element, settingProduct }: ProductProps) {
                     </p>
                     <div className="flex items-start">
                         <p className="text-[#1E242C] text-[26px] font-semibold leading-none">
-                            $59
+                            {element?.variants[0]?.price}
                         </p>
                         <p className="leading-none text-[#9BA2AE] text-sm ml-4 line-through">
                             {element.slug}

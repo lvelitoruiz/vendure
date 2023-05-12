@@ -7,6 +7,12 @@ describe('Product', () => {
     featuredAsset: {
       preview: 'https://example.com/product-image.jpg',
     },
+    variants: [
+      {
+        id: 1,
+        price: 12
+      }
+    ],
     name: 'Test Product',
     slug: 'test-product',
   };

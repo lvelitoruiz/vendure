@@ -7,6 +7,10 @@ export const getProductsQuery = gql`
         id
         slug
         name
+        variants {
+          id
+          price
+        }
         featuredAsset {
           id
           source
