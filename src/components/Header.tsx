@@ -11,10 +11,9 @@ interface ActiveOrder {
   lines: {
     __typename: string;
     id: string;
-    productVariant: any; // Update the type with the actual structure of `productVariant`
+    productVariant: any; 
     unitPriceWithTax: number;
     quantity: number;
-    // add any other properties here
   }[];
   state: string;
   total: number;
