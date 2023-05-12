@@ -5,7 +5,7 @@ export default function Slide(props: any) {
   console.log(props.product);
   return (
     <div className='w-full h-[727px] relative flex items-center'>
-      <div className="relative w-full before:absolute before:top-0 before:bottom-0 before:right-0 before:left-0 before:content-[''] before:bg-[#00000075]">
+      <div className="relative h-[727px] w-full before:absolute before:top-0 before:bottom-0 before:right-0 before:left-0 before:content-[''] before:bg-[#00000075]">
         {/* <img className="object-cover h-[727px] w-full" src={props.product.featuredAsset.source} alt="" /> */}
         {props.product.featuredAsset !== null ? (
           <img
