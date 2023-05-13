@@ -27,7 +27,9 @@ function App() {
 
   useEffect( () => {
     if(cartInformation !== null && cartInformation !== undefined) {
-      setTotal(cartInformation.activeOrder.total);
+      if(cartInformation.activeOrder !== null) {
+        setTotal(cartInformation.activeOrder.total);
+      }
     } else {
       setTotal(0);
     }
